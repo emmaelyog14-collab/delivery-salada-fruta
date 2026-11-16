@@ -1,98 +1,284 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import {useState} from "react";
+import { useRouter } from "expo-router";
+import {
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+    Image,
+} from "react-native";
 
 export default function HomeScreen() {
+  const [ativo, setAtivo] = useState("inicio");
+  const router = useRouter();
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+    <View style={{ flex: 1, backgroundColor: "#FFF9EC" }}>
+  
+  {/* Menu */}
+    <View style={styles.menu}>
+      <TouchableOpacity style={styles.menuItem} onPress={() => router.push("/")}>
+        <Text style={styles.menuText}>
+          Início
+        </Text>
+      </TouchableOpacity>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+      <TouchableOpacity style={styles.menuItem} onPress={() => router.push("/cardapio")}>
+        <Text style={styles.menuText}>
+          Cardápio
+        </Text>
+      </TouchableOpacity>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+    <TouchableOpacity style={styles.menuItem}>
+      <Text style={styles.menuText}>
+        ////
+      </Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity style={styles.menuItem}>
+      <Text style={styles.menuText}>
+        ////
+      </Text>
+    </TouchableOpacity>
+  </View>
+{/* fim do menu */}
+
+{/* início das boas vindas*/}
+  <ScrollView style={styles.container}>
+
+    <View style={styles.header}>
+
+      <Text style={styles.greeting}>
+        Seja muito bem-vindo(a) à DOCE POMAR! 👋   
+      </Text>
+
+      <Text style={styles.descricao}>
+        Aqui você encontra saladas de frutas deliciosas! 🍇🍍🥝
+      </Text>
+
+      <Text style={styles.slogan}>
+        DOCE POMAR — o sabor natural que conquista você!
+      </Text>
+    
+    </View>
+{/* fim das boas vindas */}
+
+{/* início do banner */}
+        <Text style={styles.title}>
+          Qual combinação chama sua atenção?
+        </Text>
+
+      <View style={styles.banner}>
+        <Text style={styles.offer}>
+          OFERTA ESPECIAL
+        </Text>
+
+        <Text style={styles.bannerTitle}>
+          Salada Colorida
+        </Text>
+
+        <Text style={styles.bannerText}>
+          Uma combinação perfeita para seu pedido, pela metade do preço!!
+        </Text>
+
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>
+            Peça agora  ➜
+          </Text>
+        </TouchableOpacity>
+
+
+        <Image
+        source={require("../../assets/images/frutas_banner.png")}
+        style={styles.bannerImage}
+        resizeMode="contain"
+        />
+
+      </View>
+{/* fim do banner */}
+
+{/* início das categorias */}
+      <Text style={styles.sectionTitle}>
+        Categorias :
+      </Text>
+
+      <View style={styles.categorias}>
+
+        <TouchableOpacity style={styles.category}>
+          <Text style={styles.emoji}>🍌</Text>
+          <Text style={styles.categoryText}>Tradicionais</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.category}>
+          <Text style={styles.emoji}>🥝</Text>
+          <Text style={styles.categoryText}>Especiais</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.category}>
+          <Text style={styles.emoji}>🍫</Text>
+          <Text style={styles.categoryText}>Com adicionais</Text>
+        </TouchableOpacity>
+
+      </View>
+{/* fim das categorias */}
+
+    </ScrollView>
+    </View>
+
   );
 }
 
 const styles = StyleSheet.create({
+
+
+  bannerImage: {
+    position: "absolute",
+    right: 22,
+    width: 120,
+    height: 240,
+    bottom: -80,
+  },
+
+
+  greeting: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#355D2D",
+    marginBottom: 10,
+  },
+
+  descricao: {
+    fontSize: 15,
+    lineHeight: 22, // espaço entre as linhas, deixa mais fácil de ler
+    color: "#4F6B47",
+    marginLeft: 5,
+  },
+
+  slogan: {
+    fontSize: 14,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    color: "#A95F25",
+    marginLeft: 5,
+  },
+
+  menu: {
+    flexDirection: "row", // itens lado a lado
+    justifyContent: "space-around", // espaço entre os itens
+    backgroundColor: "#355D2D",
+    paddingTop: 10, // espaço da barra de status do celular
+    paddingBottom: 12,
+  },
+
+  menuItem: {
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderBottomWidth: 2,
+    marginTop: 15,
+    borderBottomColor: "transparent", // reserva o espaço do sublinhado, senão o item "pula" ao selecionar
+  },
+
+  menuText: {
+    fontSize: 14,
+    color: "#E4EBD9",
+  },
+
+
+
   container: {
     flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
+    backgroundColor: "#FFF9EC",
+    paddingHorizontal: 20,
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+
+  header: {
+    marginTop: 50,
+    marginBottom: 25,
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
+
   title: {
-    textAlign: 'center',
+    fontSize: 25,
+    fontWeight: "bold",
+    marginTop: 15,
+    fontFamily: 'Georgia',
+    color: "#A95F25",
   },
-  code: {
-    textTransform: 'uppercase',
+
+  banner: {
+    backgroundColor: "#355D2D",
+    borderRadius: 20,
+    padding: 25,
+    marginTop: 17,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+
+  offer: {
+    color: "#FFD76A",
+    fontSize: 13,
+    fontWeight: "bold",
   },
+
+  bannerTitle: {
+    color: "#ffff",
+    fontSize: 25,
+    fontWeight: "bold",
+    marginTop: 8,
+  },
+
+  bannerText: {
+    color: "#ffff",
+    fontSize: 15,
+    marginTop: 8,
+  },
+
+  button: {
+    backgroundColor: "#FFD76A",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    marginTop: 20,
+    alignSelf: "flex-start", // ele posiciona o botão longe da margen inicial
+  },
+
+  buttonText: {
+    color: "#355D2D",
+    fontWeight: "bold",
+  },
+
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 30, // distância do nome com o coiso de cima
+    marginBottom: 15,
+    textAlign: "center",
+    fontFamily: "Yeseva One",
+    color: "#355D2D"
+  },
+
+  categorias: {
+    flexDirection: "row", // sem isso ficaria na horizontal
+    justifyContent: "space-between", // espaço entre os botões
+  },
+
+  category: {
+    width: "30%", // espaço que o botão toma
+    backgroundColor: "#FFF9EC",
+    paddingVertical: 18,
+    borderRadius: 15,
+    borderColor: "#F0DFC0",
+    borderWidth: 1,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+
+  emoji: {
+    fontSize: 30,
+    marginBottom: 5,
+  },
+
+  categoryText: {
+    color: "#355D2D",
+  }
+
 });
