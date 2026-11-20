@@ -1,5 +1,6 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { saladas, categorias, formatarPreco } from "../dados_saladas/saladas";
 import {
     Image,
     ScrollView,
@@ -10,14 +11,17 @@ import {
     View,
 } from "react-native";
 
+
 export default function HomeScreen() {
   const [ativo, setAtivo] = useState("inicio");
   const router = useRouter();
   const [busca, setBusca] = useState('');
 
-  return (
+  const saladasFiltradas = saladas.filter((salada) =>
+    salada.nome.toLowerCase().includes(busca.toLowerCase())
+  );
 
-    //invenção minha
+  return (
 
     <View style={{ flex: 1, backgroundColor: "#FFF9EC" }}>
       
@@ -49,14 +53,15 @@ export default function HomeScreen() {
         </View>
 
 {/* início da barra de pesquisa */}
-        <TextInput
-            style={styles.busca}                // aplica o visual definido na Parte 4
-            placeholder="Buscar salada..."      // texto cinza que aparece quando está vazio
-            placeholderTextColor="#A56836"      // cor desse texto (o marrom do seu cardápio)
-            value={busca}                       // o que aparece na barra vem do estado
-            onChangeText={setBusca}           // a cada letra digitada, atualiza o estado
-        />
-{/* fim da barra de pesquisa */}
+<View>
+    <TextInput
+        style={styles.busca}                
+        placeholder="Buscar salada..."      
+        placeholderTextColor="#A56836"     
+        value={busca}                       
+        onChangeText={setBusca}/>
+</View>      
+{/* fim da barra de pesquisa layout*/}
 
         <Text style={styles.titulo_cardapio}>
                SALADA DE FRUTAS
@@ -66,337 +71,38 @@ export default function HomeScreen() {
             Escolha a sua para delivery!!
         </Text>
 
-        <Text style={styles.categoria}>
-            Saladas Tradicionais:
+{/* início do cardápio */}
+{categorias.map((categoria) => {
+    const itens = saladasFiltradas.filter((s) => s.categoria === categoria);
+
+    if (itens.length === 0) return null;
+
+    return (
+    <View key={categoria}>
+        <Text 
+            style={styles.categoria}>{categoria}:
         </Text>
 
-    <View style={styles.card_nomeado}>
-        <Image source={require("../../assets/images/salada_classica.png")} style={styles.fruta} />
+    {itens.map((salada) => (
+        <View key={salada.id} style={styles.card_nomeado}>
+            <Image source={salada.imagem} style={styles.fruta} />
 
             <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Salada Clássica
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Banana, maçã, laranja e mamão
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
+                <Text style={styles.nome}>{salada.nome}</Text>
+                <Text style={styles.descricao}>{salada.descricao}</Text>
+                <Text style={styles.preco}>{formatarPreco(salada.preco)}</Text>
             </View>
 
-            {/* Botão adicionar */}
             <TouchableOpacity style={styles.botao}>
                 <Text style={styles.mais}>+</Text>
             </TouchableOpacity>
+        </View>
+        ))}
     </View>
-
-    <View style={styles.card}>
-        <Image source={require("../../assets/images/salada_tropical.png")} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Salada Tropical
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Manga, abacaxi, banana e maçã
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
-            </View>
-
-            {/* Botão adicionar */}
-            <TouchableOpacity style={styles.botao}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-    </View>
-
-    <View style={styles.card}>
-        <Image source={require("../../assets/images/salada_refrescante.png")} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Salada Refrescante
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Laranja, mamão, abacaxi e uva
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
-            </View>
-
-            {/* Botão adicionar */}
-            <TouchableOpacity style={styles.botao}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-    </View>
-
-    <View style={styles.card}>
-        <Image source={require("../../assets/images/salada_moranguinho.png")} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Salada Moranguinho
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Morango, banana, maçã e mamão
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
-            </View>
-
-            {/* Botão adicionar */}
-            <TouchableOpacity style={styles.botao}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-
-            
-    </View>
-
-    <View style={styles.card}>
-        <Image source={require("../../assets/images/salada_colorida.png")} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Salada Colorida
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Laranja, mamão, abacaxi e uva
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
-            </View>
-
-            {/* Botão adicionar */}
-            <TouchableOpacity style={styles.botao}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-    </View>
-
-        <Text style={styles.categoria}>
-            Saladas Especiais:
-        </Text>
-
-        <View style={styles.card_nomeado}>
-            <Image source={require("../../assets/images/pomar_premiun.png")} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Pomar Premium
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Morango, kiwi, manga e uva
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
-            </View>
-
-            {/* Botão adicionar */}
-            <TouchableOpacity style={styles.botao}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-    </View>
-
-    <View style={styles.card}>
-        <Image source={require("../../assets/images/doce_tentacao.png")} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Doce Tentação
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Morango, banana, manga e leite condensado
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
-            </View>
-
-            {/* Botão adicionar */}
-            <TouchableOpacity style={styles.botao}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-    </View>
-
-    <View style={styles.card}>
-        <Image source={require("../../assets/images/paraiso_tropical.png")} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Paraíso Tropical
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Kiwi, abacaxi, morango e laranja
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
-            </View>
-
-            {/* Botão adicionar */}
-            <TouchableOpacity style={styles.botao}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-    </View>
-
-    <View style={styles.card}>
-        <Image source={require("../../assets/images/encanto.png")} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Encanto
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Manga, morango, uva e mirtilo
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
-            </View>
-
-            {/* Botão adicionar */}
-            <TouchableOpacity style={styles.botao}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-    </View>
-
-    <View style={styles.card}>
-        <Image source={require("../../assets/images/sensacao.png")} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Sensação
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Banana, morango, kiwi e cobertura de chocolate
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
-            </View>
-
-            {/* Botão adicionar */}
-            <TouchableOpacity style={styles.botao}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-    </View>
-
-        <Text style={styles.categoria}>
-            Saladas Com Adicionais:
-        </Text>
-
-    <View style={styles.card_nomeado}>
-        <Image source={require("../../assets/images/leite_ninho.png")} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Leite Ninho
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Banana, maçã, morango e leite em pó
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
-            </View>
-
-            {/* Botão adicionar */}
-            <TouchableOpacity style={styles.botao}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-    </View>
-
-    <View style={styles.card}>
-        <Image source={require("../../assets/images/chocolatuda.png")} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Chocolatuda
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Manga, banana, morango e calda de chocolate
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
-            </View>
-
-            {/* Botão adicionar */}
-            <TouchableOpacity style={styles.botao}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-    </View>
-
-    <View style={styles.card}>
-        <Image source={require("../../assets/images/crock.png")} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Crock
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Maçã, banana, uva, granola e mel
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
-            </View>
-
-            {/* Botão adicionar */}
-            <TouchableOpacity style={styles.botao}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-    </View>
-
-    <View style={styles.card}>
-        <Image source={require("../../assets/images/creamy.png")} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Creamy
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Morango, manga, banana e creme de leite
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
-            </View>
-
-            {/* Botão adicionar */}
-            <TouchableOpacity style={styles.botao}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-    </View>
-
-    <View style={styles.card}>
-        <Image source={require("../../assets/images/especial_da_casa.png")} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>
-                    Especial da casa
-                </Text>
-
-                <Text style={styles.descricao}>
-                    Mamão, manga, morango, coco ralado e castanhas
-                </Text>
-
-                <Text style={styles.preco}>R$ 10,00</Text>
-            </View>
-
-            {/* Botão adicionar */}
-            <TouchableOpacity style={styles.botao}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-    </View>
-
-
-    </ScrollView>
+    );
+})}
+{/* fim do cardápio */}
+        </ScrollView>
     </View>
   );
 }
@@ -440,8 +146,9 @@ menu: {
   },
 
   categoria: {
-    marginTop: 25,
+    marginTop: 20,
     marginLeft: 20,
+    marginBottom: 15,
     fontSize: 20,
     color: "#355D2D",
     fontWeight: "bold",
@@ -456,7 +163,7 @@ menu: {
     borderColor: '#EDE5D1',
     padding: 20,
     gap: 16,
-    marginTop: 10,
+    marginTop: -7,
     marginHorizontal: 10,
     marginBottom: 16,
   },
