@@ -4,6 +4,10 @@ export const categorias = [
   'Saladas Com Adicionais',
 ];
 
+export function formatarPreco(valor: number) {
+  return `R$ ${valor.toFixed(2).replace('.', ',')}`;
+}
+
 export const saladas = [
   {
   id: '1',
@@ -71,14 +75,6 @@ export const saladas = [
 },
 {
   id: '9',
-  nome: 'Leite Ninho',
-  categoria: "Saladas Com Adicionais",
-  descricao: 'Banana, maçã, morango e leite em pó',
-  preco: 19,
-  imagem: require('../../assets/images/leite_ninho.png'),
-},
-{
-  id: '10',
   nome: 'Crock',
   categoria: "Saladas Com Adicionais",
   descricao: 'Maçã, banana, uva, granola e mel',
@@ -86,7 +82,7 @@ export const saladas = [
   imagem: require('../../assets/images/crock.png'),
 },
 {
-  id: '11',
+  id: '10',
   nome: 'Creamy',
   categoria: "Saladas Com Adicionais",
   descricao: 'Morango, manga, banana e creme de leite',
@@ -94,7 +90,7 @@ export const saladas = [
   imagem: require('../../assets/images/creamy.png'),
 },
 {
-  id: '12',
+  id: '11',
   nome: 'Especial da casa',
   categoria: "Saladas Com Adicionais",
   descricao: 'Mamão, manga, morango, coco ralado e castanhas',
@@ -102,7 +98,3 @@ export const saladas = [
   imagem: require('../../assets/images/especial_da_casa.png'),
 },
 ];
-
-export function formatarPreco(valor: number) {
-  return `R$ ${valor.toFixed(2).replace('.', ',')}`;
-}

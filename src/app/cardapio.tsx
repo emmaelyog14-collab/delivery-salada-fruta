@@ -39,18 +39,16 @@ export default function HomeScreen() {
                 </Text>
             </TouchableOpacity>
     
-            <TouchableOpacity style={styles.menuItem}>
-                <Text style={styles.menuText}> 
-                    Promoções
-                </Text>
-            </TouchableOpacity>
-    
-            <TouchableOpacity style={styles.menuItem}>
+            <TouchableOpacity style={styles.menuItem} onPress={() => router.push("/confirmacao")}>
                 <Text style={styles.menuText}>
-                    Contato
+                    🛒
                 </Text>
             </TouchableOpacity>
         </View>
+
+<Text style={styles.quant_itens}>
+  Itens no carrinho:
+</Text>
 
 {/* início da barra de pesquisa */}
 <View>
@@ -130,6 +128,15 @@ menu: {
     color: "#E4EBD9",
   },
 
+  quant_itens: {
+    fontSize: 15,
+    color: "#355D2D",
+    fontWeight: "bold",
+    textAlign: "right",
+    marginRight: 40,
+    marginTop: 15,
+  },
+
   titulo_cardapio: {
     fontSize: 30,
     fontWeight: "bold",
@@ -206,7 +213,7 @@ descricao: {
 },
 
 preco: {
-  fontSize: 16,
+  fontSize: 13,
   color: '#355D2D',
   fontWeight: '500',
 },

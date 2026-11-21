@@ -18,32 +18,27 @@ export default function HomeScreen() {
     <View style={{ flex: 1, backgroundColor: "#FFF9EC" }}>
   
   {/* Menu */}
-    <View style={styles.menu}>
-      <TouchableOpacity style={styles.menuItem} onPress={() => router.push("/")}>
-        <Text style={styles.menuText}>
-          Início
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.menuItem} onPress={() => router.push("/cardapio")}>
-        <Text style={styles.menuText}>
-          Cardápio
-        </Text>
-      </TouchableOpacity>
-
-    <TouchableOpacity style={styles.menuItem}>
+  <View style={styles.menu}>
+    <TouchableOpacity style={styles.menuItem} onPress={() => router.push("/")}>
       <Text style={styles.menuText}>
-        ////
+        Início
       </Text>
     </TouchableOpacity>
 
-    <TouchableOpacity style={styles.menuItem}>
+    <TouchableOpacity style={styles.menuItem} onPress={() => router.push("/cardapio")}>
       <Text style={styles.menuText}>
-        ////
+        Cardápio
+      </Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity style={styles.menuItem} onPress={() => router.push("/confirmacao")}>
+      <Text style={styles.menuText}>
+          🛒
       </Text>
     </TouchableOpacity>
   </View>
 {/* fim do menu */}
+
 
 {/* início das boas vindas*/}
   <ScrollView style={styles.container}>
@@ -66,66 +61,64 @@ export default function HomeScreen() {
 {/* fim das boas vindas */}
 
 {/* início do banner */}
-        <Text style={styles.title}>
-          Qual combinação chama sua atenção?
-        </Text>
+  <Text style={styles.title}>
+    Qual combinação chama sua atenção?
+  </Text>
 
-      <View style={styles.banner}>
-        <Text style={styles.offer}>
-          OFERTA ESPECIAL
-        </Text>
+  <View style={styles.banner}>
+    <Text style={styles.offer}>
+      DOCE POMAR
+    </Text>
 
-        <Text style={styles.bannerTitle}>
-          Salada Colorida
-        </Text>
+    <Text style={styles.bannerTitle}>
+      Salada Colorida
+    </Text>
 
-        <Text style={styles.bannerText}>
-          Uma combinação perfeita para seu pedido, pela metade do preço!!
-        </Text>
+    <Text style={styles.bannerText}>
+      Uma combinação perfeita para seu pedido!!
+    </Text>
 
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>
-            Peça agora  ➜
-          </Text>
-        </TouchableOpacity>
+    <TouchableOpacity style={styles.button} onPress={() => router.push("/cardapio")}>
+      <Text style={styles.buttonText}>
+        Peça agora  ➜
+      </Text>
+    </TouchableOpacity>
 
+    <Image
+      source={require("../../assets/images/frutas_banner.png")}
+      style={styles.bannerImage}
+      resizeMode="contain"/>
 
-        <Image
-        source={require("../../assets/images/frutas_banner.png")}
-        style={styles.bannerImage}
-        resizeMode="contain"
-        />
-
-      </View>
+  </View>
 {/* fim do banner */}
 
 {/* início das categorias */}
-      <Text style={styles.sectionTitle}>
-        Categorias :
-      </Text>
+    <Text style={styles.sectionTitle}>
+      Categorias :
+    </Text>
 
-      <View style={styles.categorias}>
+    <View style={styles.categorias}>
 
-        <TouchableOpacity style={styles.category}>
-          <Text style={styles.emoji}>🍌</Text>
-          <Text style={styles.categoryText}>Tradicionais</Text>
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.category}>
+        <Text style={styles.emoji}>🍌</Text>
+        <Text style={styles.categoryText}>Tradicionais</Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity style={styles.category}>
-          <Text style={styles.emoji}>🥝</Text>
-          <Text style={styles.categoryText}>Especiais</Text>
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.category}>
+        <Text style={styles.emoji}>🥝</Text>
+        <Text style={styles.categoryText}>Especiais</Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity style={styles.category}>
-          <Text style={styles.emoji}>🍫</Text>
-          <Text style={styles.categoryText}>Com adicionais</Text>
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.category}>
+        <Text style={styles.emoji}>🍫</Text>
+        <Text style={styles.categoryText}>Com adicionais</Text>
+      </TouchableOpacity>
 
-      </View>
+    </View>
 {/* fim das categorias */}
 
     </ScrollView>
-    </View>
+  </View>
 
   );
 }
