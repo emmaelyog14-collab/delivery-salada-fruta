@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { saladas, categorias, formatarPreco } from "../dados_saladas/saladas";
 import { useCarrinho } from "../context_car/carrinho_context";
+import { useLocalSearchParams } from "expo-router";
 import {
     Image,
     ScrollView,
@@ -12,10 +13,7 @@ import {
     View,
 } from "react-native";
 
-  type Salada = (typeof saladas)[number];
-
   export default function HomeScreen() {
-    const [ativo, setAtivo] = useState("inicio");
     const router = useRouter();
     const [busca, setBusca] = useState('');
 
@@ -23,7 +21,10 @@ import {
       salada.nome.toLowerCase().includes(busca.toLowerCase())
     );
 
-    const { carrinho, adicionarCarrinho, removerCarrinho, total } = useCarrinho();
+    const { carrinho, adicionarCarrinho, total } = useCarrinho();
+
+    const { categoria: categoriaEscolhida } = useLocalSearchParams<{ categoria?: string }>();
+
 
   return (
 
@@ -75,7 +76,9 @@ import {
 
 {/* início do cardápio */}
 {categorias.map((categoria) => {
-    const itens = saladasFiltradas.filter((s) => s.categoria === categoria);
+  if (categoriaEscolhida && categoria !== categoriaEscolhida) return null;
+
+  const itens = saladasFiltradas.filter((s) => s.categoria === categoria);
 
     if (itens.length === 0) return null;
 
