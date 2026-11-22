@@ -1,4 +1,3 @@
-import {useState} from "react";
 import { useRouter } from "expo-router";
 import {
     ScrollView,
@@ -10,13 +9,12 @@ import {
 } from "react-native";
 
 export default function HomeScreen() {
-  const [ativo, setAtivo] = useState("inicio");
   const router = useRouter();
 
   return (
 
     <View style={{ flex: 1, backgroundColor: "#FFF9EC" }}>
-  
+      
   {/* Menu */}
   <View style={styles.menu}>
     <TouchableOpacity style={styles.menuItem} onPress={() => router.push("/")}>
@@ -99,17 +97,23 @@ export default function HomeScreen() {
 
     <View style={styles.categorias}>
 
-      <TouchableOpacity style={styles.category}>
+      <TouchableOpacity
+        style={styles.category}
+        onPress={() => router.push({ pathname: "/cardapio", params: { categoria: "Saladas Tradicionais" } })}>
         <Text style={styles.emoji}>🍌</Text>
         <Text style={styles.categoryText}>Tradicionais</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.category}>
+      <TouchableOpacity
+        style={styles.category}
+        onPress={() => router.push({ pathname: "/cardapio", params: { categoria: "Saladas Especiais" } })}>
         <Text style={styles.emoji}>🥝</Text>
         <Text style={styles.categoryText}>Especiais</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.category}>
+      <TouchableOpacity
+        style={styles.category}
+        onPress={() => router.push({ pathname: "/cardapio", params: { categoria: "Saladas Com Adicionais" } })}>
         <Text style={styles.emoji}>🍫</Text>
         <Text style={styles.categoryText}>Com adicionais</Text>
       </TouchableOpacity>
