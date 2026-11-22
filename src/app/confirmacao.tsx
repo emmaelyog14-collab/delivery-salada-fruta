@@ -6,17 +6,18 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 
 export default function ConfirmacaoScreen() {
   const router = useRouter();
-
-  const { carrinho, total } = useCarrinho();
   
   const [confirmado, setConfirmado] = useState(false);
+
+  const { carrinho, total, removerCarrinho } = useCarrinho();
+
+  const [pagamento, setPagamento] = useState("");
 
   return (
     <View style={ {flex: 1, backgroundColor: "#FFF9EC"}}>
@@ -36,16 +37,22 @@ export default function ConfirmacaoScreen() {
 <ScrollView>
     
 {/* resumo do pedido */}
-    
+
+<Text style={styles.text_pedidos}>Pedidos:</Text>
 {carrinho.length === 0 && (
   <Text style={styles.itemNome}>Nenhum item no pedido.</Text>
 )}
 
-<Text style={styles.text_pedidos}>Pedidos:</Text>
 {carrinho.map((item, indice) => (
   <View key={indice} style={styles.resumo}>
-    <Text style={styles.itemNome}>1x {item.nome}</Text>
-    <Text style={styles.itemPreco}>{formatarPreco(item.preco)}</Text>
+    <Text style={styles.item_Nome}>1x {item.nome}</Text>
+
+    <View style={styles.direita}>
+      <Text style={styles.itemPreco}>{formatarPreco(item.preco)}</Text>
+      <TouchableOpacity onPress={() => removerCarrinho(indice)}>
+        <Text style={styles.remover}>✕</Text>
+      </TouchableOpacity>
+    </View>
   </View>
 ))}
 
@@ -58,19 +65,27 @@ export default function ConfirmacaoScreen() {
 {/* fim do resumo */}
 
 {/* forma de pagamento */}
-        <Text style={styles.secao}>Forma de pagamento:</Text>
+    <Text style={styles.secao}>Opções de pagamento:</Text>
 
-        <View style={styles.pagamentos}>
-          <View style={styles.opcao}>
-            <Text style={styles.opcaoTexto}>Pix</Text>
-          </View>
-          <View style={styles.opcao}>
-            <Text style={styles.opcaoTexto}>Cartão</Text>
-          </View>
-          <View style={styles.opcao}>
-            <Text style={styles.opcaoTexto}>Dinheiro</Text>
-          </View>
-        </View>
+    <View style={styles.pagamentos}>
+        <TouchableOpacity
+            style={[styles.opcao, pagamento === "Pix" && styles.opcaoAtiva]}
+            onPress={() => setPagamento("Pix")}>
+        <Text style={[styles.opcaoTexto, pagamento === "Pix" && styles.opcaoTextoAtivo]}>Pix</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+            style={[styles.opcao, pagamento === "Cartão" && styles.opcaoAtiva]}
+            onPress={() => setPagamento("Cartão")}>
+        <Text style={[styles.opcaoTexto, pagamento === "Cartão" && styles.opcaoTextoAtivo]}>Cartão</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+            style={[styles.opcao, pagamento === "Dinheiro" && styles.opcaoAtiva]}
+            onPress={() => setPagamento("Dinheiro")}>
+        <Text style={[styles.opcaoTexto, pagamento === "Dinheiro" && styles.opcaoTextoAtivo]}>Dinheiro</Text>
+        </TouchableOpacity>
+    </View>
 {/* fim da forma de pagamento */}
 
 {/* botão */}
@@ -80,7 +95,7 @@ export default function ConfirmacaoScreen() {
     
     {confirmado && (
         <Text style={styles.confirmado}>
-            Pedido confirmado, aguarde o entregador!!
+            Pedido confirmado, o pagamento é presencial, aguarde o entregador!!
         </Text>
     )}
 
@@ -138,9 +153,17 @@ const styles = StyleSheet.create({
         marginLeft: 20,
     },
 
+    item_Nome: {
+        fontSize: 15.5,
+        color: "#355D2D",
+    },
+
     itemNome: {
         fontSize: 15.5,
-        color: "#355D2D"
+        color: "#355D2D",
+        fontWeight: "bold",
+        marginLeft: 20,
+        marginBottom: 10
     },
 
     itemPreco: {
@@ -216,5 +239,27 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 16,
         textAlign: "center",
+    },
+
+    direita: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 12,
+    },
+
+    remover: {
+        fontSize: 18,
+        color: "#A95F25",
+        fontWeight: "bold",
+        marginRight: 10.
+    },
+
+    opcaoAtiva: {
+        backgroundColor: "#355D2D",
+        borderColor: "#355D2D",
+    },
+
+    opcaoTextoAtivo: {
+        color: "#FFF9EC",
     },
 });
