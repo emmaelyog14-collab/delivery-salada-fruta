@@ -1,4 +1,7 @@
 import { useRouter } from "expo-router";
+import { useCarrinho } from "../context_car/carrinho_context";
+import { formatarPreco } from "../dados_saladas/saladas";
+import { useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -10,6 +13,10 @@ import {
 
 export default function ConfirmacaoScreen() {
   const router = useRouter();
+
+  const { carrinho, total } = useCarrinho();
+  
+  const [confirmado, setConfirmado] = useState(false);
 
   return (
     <View style={ {flex: 1, backgroundColor: "#FFF9EC"}}>
@@ -26,27 +33,26 @@ export default function ConfirmacaoScreen() {
         CONFIRMAR PEDIDO
     </Text>
 
+<ScrollView>
+    
 {/* resumo do pedido */}
     
-<ScrollView contentContainerStyle={{ padding: 20 }}>
-    <Text style={styles.texto_resumo}>
-        Resumo:
-    </Text>
+{carrinho.length === 0 && (
+  <Text style={styles.itemNome}>Nenhum item no pedido.</Text>
+)}
 
-    <View style={styles.resumo}>
-        <Text style={styles.itemNome}>2x Salada Clássica</Text>
-        <Text style={styles.itemPreco}>R$ 20,00</Text>
-    </View>
-
-    <View style={styles.resumo}>
-        <Text style={styles.itemNome}>2x Salada Clássica</Text>
-        <Text style={styles.itemPreco}>R$ 20,00</Text>
-    </View>
+<Text style={styles.text_pedidos}>Pedidos:</Text>
+{carrinho.map((item, indice) => (
+  <View key={indice} style={styles.resumo}>
+    <Text style={styles.itemNome}>1x {item.nome}</Text>
+    <Text style={styles.itemPreco}>{formatarPreco(item.preco)}</Text>
+  </View>
+))}
 
     <View style={styles.barra} />
 
     <Text style={styles.total}>
-        Total do pedido: R$ 
+        Total do pedido: {formatarPreco(total)} 
     </Text>
 
 {/* fim do resumo */}
@@ -68,9 +74,15 @@ export default function ConfirmacaoScreen() {
 {/* fim da forma de pagamento */}
 
 {/* botão */}
-    <TouchableOpacity style={styles.botao}>
+    <TouchableOpacity style={styles.botao} onPress={() => setConfirmado(true)}>
         <Text style={styles.botaoTexto}>Confirmar pedido</Text>
     </TouchableOpacity>
+    
+    {confirmado && (
+        <Text style={styles.confirmado}>
+            Pedido confirmado, aguarde o entregador!!
+        </Text>
+    )}
 
         </ScrollView> 
     </View>  
@@ -105,16 +117,19 @@ const styles = StyleSheet.create({
         marginTop: 50,
     },
 
-    texto_resumo: {
+    text_pedidos: {
         marginLeft: 10,
         color: "#355D2D",
-        marginBottom: 5,
+        marginBottom: 10,
+        marginTop: 15,
         fontSize: 17,
         fontWeight: "bold",
     },
 
     resumo: {
         flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
         marginTop: 3,
         paddingVertical: 6,
         fontSize: 15,
@@ -131,7 +146,6 @@ const styles = StyleSheet.create({
     itemPreco: {
         fontSize: 15.5,
         color: "#A56836",
-        marginLeft: 110,
         marginRight: 20,
     },
     
@@ -163,6 +177,7 @@ const styles = StyleSheet.create({
     pagamentos: {
         flexDirection: "row",
         gap: 10,
+        margin: 10,
     },
     
     opcao: {
@@ -186,11 +201,20 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         alignItems: "center",
         marginTop: 28,
+        margin: 10,
     },
 
     botaoTexto: {
         color: "#355D2D",
         fontWeight: "bold", 
-        fontSize: 16 
-    }
+        fontSize: 16,
+    },
+
+    confirmado: {
+        color: "#355D2D",
+        marginTop: 20,
+        fontWeight: "bold",
+        fontSize: 16,
+        textAlign: "center",
+    },
 });
