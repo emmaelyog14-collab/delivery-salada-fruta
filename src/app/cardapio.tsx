@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { saladas, categorias, formatarPreco } from "../dados_saladas/saladas";
+import { useCarrinho } from "../context_car/carrinho_context";
 import {
     Image,
     ScrollView,
@@ -11,15 +12,18 @@ import {
     View,
 } from "react-native";
 
+  type Salada = (typeof saladas)[number];
 
-export default function HomeScreen() {
-  const [ativo, setAtivo] = useState("inicio");
-  const router = useRouter();
-  const [busca, setBusca] = useState('');
+  export default function HomeScreen() {
+    const [ativo, setAtivo] = useState("inicio");
+    const router = useRouter();
+    const [busca, setBusca] = useState('');
 
-  const saladasFiltradas = saladas.filter((salada) =>
-    salada.nome.toLowerCase().includes(busca.toLowerCase())
-  );
+    const saladasFiltradas = saladas.filter((salada) =>
+      salada.nome.toLowerCase().includes(busca.toLowerCase())
+    );
+
+    const { carrinho, adicionarCarrinho, removerCarrinho, total } = useCarrinho();
 
   return (
 
@@ -47,7 +51,7 @@ export default function HomeScreen() {
         </View>
 
 <Text style={styles.quant_itens}>
-  Itens no carrinho:
+  Itens no carrinho: {carrinho.length}
 </Text>
 
 {/* início da barra de pesquisa */}
@@ -91,7 +95,7 @@ export default function HomeScreen() {
                 <Text style={styles.preco}>{formatarPreco(salada.preco)}</Text>
             </View>
 
-            <TouchableOpacity style={styles.botao}>
+            <TouchableOpacity style={styles.botao} onPress={() => adicionarCarrinho(salada)}>
                 <Text style={styles.mais}>+</Text>
             </TouchableOpacity>
         </View>
