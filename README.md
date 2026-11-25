@@ -1,56 +1,64 @@
-# Welcome to your Expo app 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# DOCE POMAR - delivery-salada-fruta
 
-## Get started
+## Desenvolvedora:
+Emmaely de Oliveira Gomes
 
-1. Install dependencies
+## Descrição:
 
-   ```bash
-   npm install
-   ```
+Aplicativo mobile de delivery de saladas de frutas, com tela inicial, cardápio, busca por nome, preços de cada produto e carrinho.
 
-2. Start the app
+## Objetivo:
 
-   ```bash
-   npx expo start
-   ```
+O objetivo é oferecer ao cliente uma forma simples e rápida de percorrer o cardápio, escolher seu pedido, sem a dependência de aplicativos de mensagens ou ligações que são lentos e sujeitos a erro.
 
-In the output, you'll find options to open the app in a
+## Tecnologias utilizadas:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- React Native
+- Expo
+- TypeScript
+- Git
+- GitHub
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Funcionalidades:
 
-## Get a fresh project
+- Tela inicial com boas-vindas, oferta e categorias;
+- Cardápio com 11 opções de saladas de frutas, divididas em 3 categorias;
+- Barra de pesquisa que filtra as opções pelo nome;
+- Imagens, descrição e preço em cada salada;
+- Carrinho de compras com adição, remoção e cálculo do valor total.
 
-When you're ready, run:
+## Estrutura do projeto:
 
-```bash
-npm run reset-project
-```
+A interface do aplicativo fica na pasta "app", o estado do carrinho na pasta "context_car" e os dados das saladas na pasta "dados_saladas", todas dentro de "src".
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+delivery-salada-fruta
+├── assets
+|   └──  imagens
+|
+├── src
+│   ├── app
+│   │   ├── _layout.tsx         (configuração da navegação)
+│   │   ├── index.tsx           (tela inicial)
+│   │   ├── cardapio.tsx        (cardápio com busca)
+│   │   ├── confirmacao.tsx     (confirmação do pedido)
+│   │   └── explore.tsx  
+|   |    
+│   ├── context_car
+│   │   └── carrinho_context.tsx  (estado global do carrinho)
+|   |
+│   └── dados_saladas
+│       └── saladas.ts    (dados das saladas, categorias e ids)
+|
+├── components
+|       └── saladaCard.tsx
+|
+└── README.md
 
-### Other setup steps
+## Como executar:
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+1. Para instalar as dependências:
+npm install
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+2. Para executar o projeto:
+npx expo start
