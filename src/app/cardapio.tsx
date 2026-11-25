@@ -1,10 +1,10 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { saladas, categorias, formatarPreco } from "../dados_saladas/saladas";
+import { saladas, categorias } from "../dados_saladas/saladas";
 import { useCarrinho } from "../context_car/carrinho_context";
 import { useLocalSearchParams } from "expo-router";
+import SaladaCard from "../components/saladaCard";
 import {
-    Image,
     ScrollView,
     StyleSheet,
     Text,
@@ -89,23 +89,16 @@ import {
         </Text>
 
     {itens.map((salada) => (
-        <View key={salada.id} style={styles.card_nomeado}>
-            <Image source={salada.imagem} style={styles.fruta} />
-
-            <View style={styles.informacoes}>
-                <Text style={styles.nome}>{salada.nome}</Text>
-                <Text style={styles.descricao}>{salada.descricao}</Text>
-                <Text style={styles.preco}>{formatarPreco(salada.preco)}</Text>
-            </View>
-
-            <TouchableOpacity style={styles.botao} onPress={() => adicionarCarrinho(salada)}>
-                <Text style={styles.mais}>+</Text>
-            </TouchableOpacity>
-        </View>
-        ))}
+    <SaladaCard
+        key={salada.id}
+        salada={salada}
+        onAdicionar={() => adicionarCarrinho(salada)}/>
+    ))}
+    
     </View>
-    );
+  );
 })}
+
 {/* fim do cardápio */}
         </ScrollView>
     </View>
@@ -167,78 +160,6 @@ menu: {
     color: "#355D2D",
     fontWeight: "bold",
   },
-
-  card_nomeado: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFF9EC',
-    borderRadius: 25,
-    borderWidth: 1.5,
-    borderColor: '#EDE5D1',
-    padding: 20,
-    gap: 16,
-    marginTop: -7,
-    marginHorizontal: 10,
-    marginBottom: 16,
-  },
-
-  card: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  backgroundColor: '#FFF9EC',
-  borderRadius: 25,
-  borderWidth: 1.5,
-  borderColor: '#EDE5D1',
-  padding: 20,
-  marginTop: -3,
-  gap: 16,
-  marginHorizontal: 10,
-  marginBottom: 16,
-},
-
-fruta: {
-  width: 70,
-  height: 70,
-  borderRadius: 25,
-},
-
-informacoes: {
-  flex: 1,
-  marginLeft: 15,
-  marginRight: 10,
-},
-
-nome: {
-  fontSize: 17,
-  color: '#355D2D',
-  fontWeight: '600',
-},
-
-descricao: {
-  fontSize: 14,
-  color: '#A56836',
-},
-
-preco: {
-  fontSize: 13,
-  color: '#355D2D',
-  fontWeight: '500',
-},
-
-botao: {
-  width: 55,
-  height: 55,
-  borderRadius: 50,
-  flexShrink: 0,
-  alignItems: 'center',
-  justifyContent: 'center',
-},
-
-mais: {
-  fontSize: 30,
-  color: '#355D2D',
-  fontWeight: 'bold',
-},
 
 busca: {
   backgroundColor: '#FFF9EC',   // mesmo creme dos cards
